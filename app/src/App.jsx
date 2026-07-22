@@ -159,11 +159,6 @@ export default function App() {
     return { avgJuros: n ? jSum / n : 0.115, avgParcelas: n ? pSum / n : 6.5, nComHistorico: n };
   }, [customers]);
 
-  const revenuePerClient = useMemo(() => {
-    return TICKET_MEDIO_REDE * ASSUMPTIONS.processingFee + TICKET_MEDIO_REDE * dataAvg.avgJuros * dataAvg.avgParcelas;
-  }, [dataAvg]);
-
-
   const segmentData = useMemo(() => {
     return SEGMENTS.map(seg => {
       const group = customers.filter(seg.filter);
@@ -316,7 +311,7 @@ export default function App() {
               </div>
               <div className="landing-feature">
                 <span className="feature-icon">💚</span>
-                <span>ROI garantido</span>
+                <span>ROI projetado com dados reais</span>
               </div>
               <div className="landing-feature">
                 <span className="feature-icon">⚡</span>
@@ -600,7 +595,7 @@ export default function App() {
             <div className="scenario-grid">
               {CONV_SCENARIOS.map(s => {
                 const conversions = Math.round(projectedOpens * s.pct);
-                const revenue = conversions * revenuePerClient;
+                const revenue = conversions * selected.revPerClient;
                 const net = revenue - projection.totalCost;
                 return (
                   <div key={s.label} className="scenario-card">
