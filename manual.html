@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Manual do Usuário — Smart Reactivation Engine</title>
+<style>
+  :root {
+    --green: #14CB53;
+    --green-dark: #0E9E41;
+    --dark: #00170D;
+    --mint: #F2FAF4;
+    --text: #1a2420;
+    --muted: #5c6b62;
+    --border: #dde8e0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: var(--text);
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+  .cover {
+    background: var(--dark);
+    color: #fff;
+    padding: 120px 60px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    page-break-after: always;
+  }
+  .cover .logo { font-size: 42pt; font-weight: 800; }
+  .cover .logo::after { content: ''; display: inline-block; width: 0.4em; height: 0.4em; background: var(--green); border-radius: 4px; margin-left: 6px; }
+  .cover h1 { font-size: 24pt; font-weight: 700; margin-top: 24px; color: var(--green); }
+  .cover p { color: rgba(255,255,255,0.75); margin-top: 16px; font-size: 12pt; max-width: 600px; }
+  .cover .meta { margin-top: 60px; color: rgba(255,255,255,0.45); font-size: 9pt; }
+
+  .page { padding: 40px 50px; page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+
+  h2 {
+    font-size: 17pt; font-weight: 700; color: var(--dark);
+    border-bottom: 3px solid var(--green); padding-bottom: 8px; margin-bottom: 18px;
+  }
+  h3 { font-size: 12.5pt; font-weight: 700; color: var(--dark); margin: 20px 0 8px; }
+  p { margin-bottom: 10px; }
+  ul, ol { margin: 0 0 12px 22px; }
+  li { margin-bottom: 6px; }
+  strong { color: var(--dark); }
+
+  .callout {
+    background: var(--mint); border-left: 4px solid var(--green);
+    border-radius: 8px; padding: 12px 16px; margin: 14px 0; font-size: 10pt;
+  }
+  .warn {
+    background: #fff8e6; border-left: 4px solid #f0c36d;
+    border-radius: 8px; padding: 12px 16px; margin: 14px 0; font-size: 10pt;
+  }
+  .screenshot {
+    max-width: 100%; max-height: 175mm; width: auto;
+    border: 1px solid var(--border); border-radius: 10px;
+    margin: 12px auto; display: block;
+  }
+  .step, .callout, .warn { page-break-inside: avoid; }
+  tr { page-break-inside: avoid; }
+  h3 { page-break-after: avoid; }
+  .caption { font-size: 9pt; color: var(--muted); text-align: center; margin: -6px 0 16px; font-style: italic; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
+  th { background: var(--mint); text-align: left; padding: 8px 10px; border: 1px solid var(--border); font-size: 9pt; text-transform: uppercase; letter-spacing: 0.04em; }
+  td { padding: 8px 10px; border: 1px solid var(--border); }
+
+  .step {
+    display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start;
+  }
+  .step-num {
+    background: var(--green); color: var(--dark); font-weight: 800;
+    min-width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 11pt;
+  }
+  .toc-item { display: flex; justify-content: space-between; border-bottom: 1px dotted var(--border); padding: 8px 0; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <div class="logo">ume</div>
+  <h1>Smart Reactivation Engine<br>Manual do Usuário</h1>
+  <p>Guia completo para montar campanhas de reativação de clientes com retorno comprovado — sem depender de time técnico.</p>
+  <div class="meta">Case Product Builder · Julho 2026 · Versão 1.0</div>
+</div>
+
+<!-- O QUE É -->
+<div class="page">
+  <h2>O que é esta ferramenta?</h2>
+  <p>A Ume tem <strong>200.592 clientes cadastrados</strong>, mas a grande maioria nunca voltou a comprar. Existem <strong>R$ 19,8 milhões em limite de crédito aprovado que ninguém está usando</strong> — dinheiro parado que poderia virar vendas nos varejos parceiros e receita para a Ume.</p>
+  <p>O Smart Reactivation Engine resolve isso. Ele responde três perguntas que hoje são decididas "no achismo":</p>
+  <ul>
+    <li><strong>QUEM</strong> vale a pena chamar de volta? (nem todo cliente vale o custo da mensagem)</li>
+    <li><strong>POR QUAL CANAL</strong>? (Push é grátis, SMS custa R$ 0,03, WhatsApp custa R$ 0,30)</li>
+    <li><strong>VALEU A PENA</strong>? (cada campanha mede o próprio resultado, com prova)</li>
+  </ul>
+
+  <div class="callout">
+    <strong>A ideia central em uma frase:</strong> trazer de volta um cliente que já foi aprovado custa centavos; conquistar um cliente novo custa R$ 50. Esta ferramenta explora essa diferença de forma organizada e mensurável.
+  </div>
+
+  <h3>Conceitos que você vai encontrar (glossário rápido)</h3>
+  <table>
+    <tr><th>Termo</th><th>O que significa</th></tr>
+    <tr><td><strong>Adimplente</strong></td><td>Cliente aprovado e sem dívida em atraso — o único tipo que entra em campanhas</td></tr>
+    <tr><td><strong>Dormência</strong></td><td>Há quantos dias o cliente não compra</td></tr>
+    <tr><td><strong>Segmento</strong></td><td>Um grupo de clientes filtrado por características (ex.: "score alto que nunca comprou")</td></tr>
+    <tr><td><strong>Grupo de controle</strong></td><td>Uma parte do público que NÃO recebe a mensagem, de propósito — serve para comparar e provar que a campanha (e não o acaso) gerou as vendas</td></tr>
+    <tr><td><strong>ROI</strong></td><td>Retorno sobre o investimento: quanto a campanha devolve para cada real gasto</td></tr>
+    <tr><td><strong>Guardrail</strong></td><td>Proteção automática que impede erros caros (estourar orçamento, cansar a base com mensagens demais)</td></tr>
+  </table>
+
+  <h3>As 4 telas do app</h3>
+  <table>
+    <tr><th>Tela</th><th>Para que serve</th></tr>
+    <tr><td><strong>1. Dashboard</strong></td><td>Entender a base: quantos clientes, quanto limite parado, como se comportam</td></tr>
+    <tr><td><strong>2. Segmentação</strong></td><td>Escolher QUEM vai receber a campanha</td></tr>
+    <tr><td><strong>3. Campanha</strong></td><td>Montar a campanha: canal, proteções, projeção de retorno e exportação</td></tr>
+    <tr><td><strong>4. Cenários</strong></td><td>Simular "e se?" — testar diferentes taxas de conversão e ver o impacto no resultado</td></tr>
+  </table>
+</div>
+
+<!-- DASHBOARD -->
+<div class="page">
+  <h2>Tela 1 — Dashboard: conheça a base</h2>
+  <p>É a primeira tela ao abrir o app. Ela existe para você entender <strong>o tamanho da oportunidade</strong> antes de agir.</p>
+  <img class="screenshot" src="manual_assets/01-dashboard.png" alt="Dashboard">
+  <p class="caption">Dashboard completo: faixa de destaque, exclusões, cartões de comportamento, insight e gráficos.</p>
+</div>
+
+<div class="page">
+  <h3>Como ler o Dashboard (de cima para baixo)</h3>
+  <div class="step"><div class="step-num">1</div><div><strong>Faixa verde-escura:</strong> o número mais importante — R$ 19,8 milhões em limite aprovado que ninguém está usando, espalhado por 43.188 clientes.</div></div>
+  <div class="step"><div class="step-num">2</div><div><strong>Aviso de exclusões:</strong> explica quem ficou de fora das campanhas e por quê (151.855 clientes com crédito negado e 5.549 inadimplentes). Transparência: você sempre sabe sobre quem a ferramenta está falando.</div></div>
+  <div class="step"><div class="step-num">3</div><div><strong>Cartões:</strong> o comportamento da base. Destaque: <strong>20.141 clientes (46,6%) foram aprovados e nunca compraram nada</strong> — o maior grupo de oportunidade.</div></div>
+  <div class="step"><div class="step-num">4</div><div><strong>Insight-chave:</strong> não existe cliente "ativo" na base — o mais recente comprou há quase 3 meses. Ou seja: todo mundo é elegível para reativação.</div></div>
+  <div class="step"><div class="step-num">5</div><div><strong>Gráficos:</strong> distribuição de dormência (quanto tempo sem comprar) e de score de crédito.</div></div>
+  <div class="step"><div class="step-num">6</div><div><strong>Botão "Começar a segmentar":</strong> no fim da página, leva você para o próximo passo.</div></div>
+</div>
+
+<!-- SEGMENTAÇÃO -->
+<div class="page">
+  <h2>Tela 2 — Segmentação: escolha quem chamar de volta</h2>
+  <p>Aqui você define o público da campanha. Pode começar por um <strong>segmento sugerido</strong> (um clique) ou montar seus próprios filtros.</p>
+  <img class="screenshot" src="manual_assets/03-preset.png" alt="Segmentação com preset aplicado">
+  <p class="caption">Segmento sugerido "Nunca compraram, score alto" aplicado: 13.418 clientes selecionados.</p>
+</div>
+
+<div class="page">
+  <h3>Passo a passo da segmentação</h3>
+  <div class="step"><div class="step-num">1</div><div><strong>Clique em um segmento sugerido</strong> (ou preencha os filtros manualmente: compras, score, limite, dormência, idade, app, sexo). Os cartões abaixo atualizam na hora mostrando quantos clientes entraram no filtro e o perfil deles.</div></div>
+  <div class="step"><div class="step-num">2</div><div><strong>Confira os cartões de resumo:</strong> quantidade de clientes, limite disponível médio, score médio e % com app. Eles dizem se o grupo vale uma campanha.</div></div>
+  <div class="step"><div class="step-num">3</div><div><strong>Clique em "Salvar Segmento"</strong>, dê um nome fácil de reconhecer (ex.: "Nunca compraram score 700+") e confirme. O segmento aparece na lista "Segmentos Salvos" e fica guardado mesmo se você fechar o navegador.</div></div>
+  <div class="step"><div class="step-num">4</div><div>Após salvar, aparece o botão <strong>"Montar campanha com este segmento →"</strong> — clique para ir direto ao próximo passo.</div></div>
+
+  <div class="callout">
+    <strong>Os 4 segmentos sugeridos e a lógica de cada um:</strong><br>
+    • <strong>Nunca compraram, score alto</strong> — aprovados confiáveis que nunca usaram o crédito: maior grupo, menor risco.<br>
+    • <strong>Uma compra, dormência curta</strong> — experimentaram há pouco tempo e ainda estão "mornos".<br>
+    • <strong>Recorrentes de alto valor</strong> — já tinham hábito de compra e têm limite sobrando.<br>
+    • <strong>Tem app, nunca comprou</strong> — alcançáveis por push, que é grátis: campanha de custo zero.
+  </div>
+</div>
+
+<!-- CAMPANHA -->
+<div class="page">
+  <h2>Tela 3 — Campanha: monte, proteja e projete</h2>
+  <p>O coração da ferramenta. Em 5 passos numerados na própria tela, você monta uma campanha completa com projeção de retorno <strong>antes de gastar um real</strong>.</p>
+  <img class="screenshot" src="manual_assets/05-campanha.png" alt="Campanha montada">
+  <p class="caption">Campanha montada: 12.060 clientes no tratamento, 1.358 no controle, ROI projetado de +198%.</p>
+</div>
+
+<div class="page">
+  <h3>Passo a passo da campanha</h3>
+  <div class="step"><div class="step-num">1</div><div><strong>Selecione os segmentos</strong> — marque um ou mais segmentos salvos. Se dois segmentos tiverem clientes em comum, a ferramenta remove as duplicidades sozinha.</div></div>
+  <div class="step"><div class="step-num">2</div><div><strong>Estratégia de canal</strong> — deixe em <strong>"Inteligente"</strong> (recomendado): quem tem app recebe push (grátis); quem tem muito limite recebe WhatsApp (mais caro, mas mais aberto); o resto recebe SMS (barato). Ou force um canal único se quiser testar.</div></div>
+  <div class="step"><div class="step-num">3</div><div><strong>Experimento e guardrails</strong> — as proteções da campanha:<br>
+    • <strong>Grupo de controle (%):</strong> parte do público que NÃO recebe mensagem (padrão 10%). É o que permite provar depois que a campanha funcionou.<br>
+    • <strong>Orçamento máximo:</strong> se o custo passar do teto, a ferramenta avisa em amarelo.<br>
+    • <strong>Kill (conversão mínima e janela):</strong> a regra de desistência — ex.: "pausar se menos de 1% comprar em 7 dias". Evita insistir em campanha que não funciona.</div></div>
+  <div class="step"><div class="step-num">4</div><div><strong>Premissas do modelo</strong> — clique em "Editar" para ver e ajustar as taxas de conversão estimadas. Elas são hipóteses declaradas (não dados medidos) e serão substituídas pelos resultados reais da primeira campanha.</div></div>
+  <div class="step"><div class="step-num">5</div><div><strong>Projeção da Campanha</strong> — os cartões mostram: quantos recebem a mensagem, quanto custa, quanto deve voltar de receita (taxa de processamento + juros) e o <strong>ROI projetado</strong>. Verde = campanha viável; vermelho = repense o público ou o canal.</div></div>
+
+  <h3>Depois de conferir a projeção</h3>
+  <ul>
+    <li><strong>Registrar Campanha:</strong> dê um nome e registre. Ela entra na tabela "Campanhas Registradas" com data, tamanhos dos grupos, custo, ROI projetado e critério de parada. A partir daí, se você tentar montar outra campanha com os mesmos clientes em menos de 30 dias, a ferramenta <strong>avisa em amarelo</strong> (proteção anti-fadiga: cliente bombardeado bloqueia o canal).</li>
+    <li><strong>Exportar Lista (.csv):</strong> baixa a lista final de clientes com o canal recomendado de cada um e a coluna <strong>grupo</strong> (tratamento ou controle) — pronta para o time de disparo usar.</li>
+  </ul>
+
+  <div class="warn">
+    <strong>Importante:</strong> os clientes do grupo "controle" NÃO devem receber mensagem. Eles são a régua de comparação — é comparando as compras dos dois grupos após 30 dias que se calcula o efeito real (e o ROI verdadeiro) da campanha.
+  </div>
+</div>
+
+<div class="page">
+  <h3>Painel de premissas</h3>
+  <p>Clique em "Editar" na seção 4 para abrir as taxas assumidas pelo modelo. Nada é caixa-preta: você vê, questiona e ajusta cada número.</p>
+  <img class="screenshot" src="manual_assets/06-premissas.png" alt="Premissas do modelo abertas">
+  <p class="caption">Painel de premissas aberto: todas as taxas assumidas são visíveis e editáveis.</p>
+</div>
+
+<!-- CENÁRIOS -->
+<div class="page">
+  <h2>Tela 4 — Cenários: brinque com o "e se?"</h2>
+  <p>Esta tela é um <strong>laboratório de hipóteses</strong> sobre a base inteira, dividida por comportamento (nunca compraram / 1 compra / recorrentes). Use antes de decidir onde apostar.</p>
+  <img class="screenshot" src="manual_assets/07-cenarios.png" alt="Cenários">
+  <p class="caption">Simulador: ajuste conversão, ticket e canal — a tabela recalcula tudo na hora.</p>
+
+  <h3>Como usar</h3>
+  <div class="step"><div class="step-num">1</div><div>Arraste o controle de <strong>Taxa de Conversão</strong> (de 0,5% pessimista a 30% otimista).</div></div>
+  <div class="step"><div class="step-num">2</div><div>Ajuste o <strong>% do limite usado como ticket</strong> (quanto do limite disponível o cliente gastaria).</div></div>
+  <div class="step"><div class="step-num">3</div><div>Escolha o <strong>canal</strong> e veja na tabela: custo, conversões, receita e ROI por segmento.</div></div>
+  <div class="step"><div class="step-num">4</div><div>Leia a <strong>Análise</strong> no rodapé: ela compara o custo de reativar um cliente com o custo de adquirir um novo (R$ 50) — o argumento central da ferramenta.</div></div>
+
+  <div class="callout">
+    <strong>Diferença entre Cenários e Campanha:</strong> Cenários é análise macro (base inteira, uma taxa única que você escolhe). Campanha é a projeção oficial de um público específico, com premissas por perfil de cliente. Use Cenários para explorar; use Campanha para decidir.
+  </div>
+</div>
+
+<div class="page">
+  <h2>Perguntas frequentes</h2>
+  <table>
+    <tr><th>Pergunta</th><th>Resposta</th></tr>
+    <tr><td>Meus segmentos somem se eu fechar o navegador?</td><td>Não — segmentos, campanhas e premissas ficam salvos no navegador.</td></tr>
+    <tr><td>Por que a taxa de conversão parece baixa (ex.: 1%)?</td><td>Ela já desconta a taxa de abertura do canal (nem todo mundo abre a mensagem). 1% efetivo sobre 12 mil clientes = 121 vendas.</td></tr>
+    <tr><td>Posso mudar as premissas?</td><td>Sim — Campanha &gt; Premissas do modelo &gt; Editar. Tudo recalcula na hora.</td></tr>
+    <tr><td>De onde vêm os dados?</td><td>100% da planilha oficial do case. Nenhum número exibido é inventado; projeções usam premissas declaradas e editáveis.</td></tr>
+    <tr><td>A ferramenta dispara as mensagens?</td><td>Não nesta versão — ela decide e exporta a lista pronta (.csv). O disparo é feito pelo time com a ferramenta atual de mensageria.</td></tr>
+  </table>
+</div>
+
+</body>
+</html>

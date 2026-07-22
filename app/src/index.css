@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Ume brand palette (extracted from ume.com.br) */
+  --ume-green: #14CB53;
+  --ume-green-dark: #0E9E41;
+  --ume-green-light: #EDFAF0;
+  --ume-mint: #F2FAF4;
+  --ume-dark: #00170D;
+  --ume-bg: #F7FBF8;
+  --ume-card: #ffffff;
+  --ume-text: #00170D;
+  --ume-text-secondary: #37373D;
+  --ume-muted: #6b7280;
+  --ume-border: #e3ede6;
+  --ume-danger: #e03131;
+  --ume-warning: #f59f00;
+  --ume-success: #0E9E41;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  font: 14px/1.5 var(--sans);
+  color: var(--ume-text);
+  background: var(--ume-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ume-bg: #0A1410;
+    --ume-mint: #0E1B14;
+    --ume-card: #10201780;
+    --ume-card: #122018;
+    --ume-text: #EDFAF0;
+    --ume-text-secondary: #b8c4bc;
+    --ume-muted: #8a968e;
+    --ume-border: #1e3327;
+    --ume-green-light: #0F2A1A;
+    --ume-dark: #00170D;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { margin: 0; }
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
