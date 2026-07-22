@@ -25,7 +25,10 @@
       "PowerShell(Get-Command python3, py, python -ErrorAction SilentlyContinue)",
       "Bash(python3 -c ' *)",
       "Bash(where python3 *)",
-      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\Gui Pilotti\\\\AppData\\\\Local\\\\\" -Directory | Where-Object { $_.Name -match \"node|python|conda|mamba\" })"
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\Gui Pilotti\\\\AppData\\\\Local\\\\\" -Directory | Where-Object { $_.Name -match \"node|python|conda|mamba\" })",
+      "Bash(node make_case_pdf.js)",
+      "Bash(rm -f '\\(Ume\\) Case_builder_ base.xlsx' Manual_Smart_Reactivation_Engine.pdf 'Não confirmado 578163.crdownload' case_builder.pdf make_pdf.js manual.html audit.mjs preprocess.js preprocess2.js shots.js umebr_cover.jfif umebr_logo.jfif ummeprofile.png unnamed.png writeup.md)",
+      "Bash(rm -rf \"manual_assets/\")"
     ]
   }
 }
