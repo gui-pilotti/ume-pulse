@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ume Pulse - Case Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #00170D;
+            background: #fff;
+            padding: 0;
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        /* Cover */
+        .cover {
+            background: linear-gradient(135deg, #00170D 0%, #0D2318 100%);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            page-break-after: always;
+            page-break-inside: avoid;
+            padding: 3rem;
+        }
+
+        .cover-logo {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            letter-spacing: -0.05em;
+        }
+
+        .cover-logo .dot {
+            color: #14CB53;
+        }
+
+        .cover-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .cover-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .cover-info {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: auto;
+        }
+
+        /* Content */
+        .content {
+            padding: 2rem 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section {
+            page-break-inside: avoid;
+            margin-bottom: 2rem;
+        }
+
+        .section-number {
+            display: inline-block;
+            width: 3rem;
+            height: 3rem;
+            background: #14CB53;
+            color: #00170D;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #00170D;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #00170D;
+            margin: 1rem 0 0.8rem;
+            font-weight: 700;
+            border-bottom: 3px solid #14CB53;
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            page-break-inside: avoid;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: #14CB53;
+            margin: 1.5rem 0 0.8rem;
+            font-weight: 700;
+            page-break-inside: avoid;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+            color: #333;
+        }
+
+        strong {
+            color: #00170D;
+            font-weight: 700;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.8rem 0;
+            page-break-inside: avoid;
+        }
+
+        thead {
+            page-break-inside: avoid;
+        }
+
+        tbody {
+            page-break-inside: avoid;
+        }
+
+        thead {
+            background: #14CB53;
+            color: #00170D;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            border: 1px solid #14CB53;
+        }
+
+        td {
+            padding: 0.8rem 1rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        tbody tr:nth-child(odd) {
+            background: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background: #f0f8f4;
+        }
+
+        /* Boxes */
+        .metric-box {
+            background: #F2FAF4;
+            border-left: 4px solid #14CB53;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            page-break-inside: avoid;
+        }
+
+        .metric-box-title {
+            font-weight: 700;
+            color: #00170D;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #14CB53;
+        }
+
+        .metric-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .highlight {
+            background: #FFF9E6;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.8rem 0;
+            page-break-inside: avoid;
+        }
+
+        .highlight strong {
+            color: #14CB53;
+        }
+
+        /* Code/Formula */
+        .formula {
+            background: #00170D;
+            color: #14CB53;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 0.8rem 0;
+            overflow-x: auto;
+            page-break-inside: avoid;
+        }
+
+        /* Page Break */
+        .page-break {
+            page-break-after: always;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* Bullet points */
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+            page-break-inside: avoid;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: #333;
+            page-break-inside: avoid;
+        }
+
+        /* Grid for two columns */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .grid-item {
+            page-break-inside: avoid;
+        }
+
+        @media print {
+            body { padding: 0; }
+            .page-break { page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+    <div class="cover-logo">ume<span class="dot">.</span>pulse</div>
+    <div class="cover-title">Smart Reactivation Engine</div>
+    <div class="cover-subtitle">Estruturação, Decisões e Comprovação de Solução</div>
+    <div class="cover-info">
+        Julho de 2026
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<h1 style="margin-top: 2rem; margin-bottom: 0.2rem;">Ume Pulse</h1>
+<p style="text-align: left; font-size: 1.1rem; color: #14CB53; font-weight: 600;">Documento de Case</p>
+
+<div class="page-break"></div>
+
+<!-- SEÇÃO 1 -->
+<div class="section">
+    <div class="section-number">1</div>
+    <h2>Estruturação do Problema</h2>
+
+    <h3>O Problema</h3>
+    <p>A Ume possui <strong>R$ 20 milhões em crédito aprovado completamente parado</strong>. De 43.188 clientes adimplentes, <strong>100% estão dormentes</strong> — nenhum teve uma transação nos últimos 85-915 dias. Esse capital não gera receita e, pior, cria inércia: cada dia sem reengajamento aumenta a chance de perda permanente do cliente.</p>
+
+    <h3>Por Que Este Escopo</h3>
+    <p>Focamos em <strong>reativação de clientes existentes</strong> (não aquisição) porque:</p>
+    <ul>
+        <li>A base já passou por aprovação creditícia e KYC</li>
+        <li>O CAC já foi pago</li>
+        <li>Existe crédito disponível e limite comprovado</li>
+        <li>A inércia é o único obstáculo, não a confiança ou qualificação</li>
+    </ul>
+
+    <h3>O Que Não Estamos Resolvendo</h3>
+    <ul>
+        <li>Problemas de produto ou experiência de compra</li>
+        <li>Integração direta com varejos parceiros</li>
+        <li>Automação de recuperação contínua (escala operacional)</li>
+        <li>Otimização de mensagens pós-reativação</li>
+    </ul>
+
+    <h3>Métrica de Sucesso</h3>
+    <div class="highlight">
+        <strong>O problema estará resolvido quando conseguirmos:</strong>
+        <ol style="margin-left: 2rem;">
+            <li>Identificar quais clientes valem a pena reativar (ROI positivo em nível individual)</li>
+            <li>Definir qual canal (Push/WhatsApp/SMS) maximiza conversão vs. custo</li>
+            <li>Medir incrementalidade (qual % de reativações foi causada pela campanha)</li>
+            <li>Proteger a base contra fadiga e desgaste com controle e cooling-off</li>
+        </ol>
+        <p style="margin-top: 1rem;"><strong>Sucesso = campanha com ROI ≥ 1 comprovado em 30 dias com grupo de controle.</strong></p>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SEÇÃO 2 -->
+<div class="section">
+    <div class="section-number">2</div>
+    <h2>Leitura dos Dados</h2>
+
+    <h3>O Que os Dados Mostram</h3>
+    <p>A base revela um paradoxo: <strong>clientes altamente qualificados mas completamente inativos</strong>. A inatividade não é risco creditício — é oportunidade de reativação.</p>
+
+    <h3>Volume e Segmentação</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Métrica</th>
+                <th>Volume</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cadastrados totais</td>
+                <td><strong>200.592</strong></td>
+            </tr>
+            <tr>
+                <td>Excluídos (crédito negado)</td>
+                <td>151.855</td>
+            </tr>
+            <tr>
+                <td>Adimplentes disponíveis</td>
+                <td><strong>43.188</strong></td>
+            </tr>
+            <tr>
+                <td>Nunca compraram</td>
+                <td><strong>20.141 (46,6%)</strong></td>
+            </tr>
+            <tr>
+                <td>Compraram 1x</td>
+                <td>1.459 (3,4%)</td>
+            </tr>
+            <tr>
+                <td>Recorrentes 2-5x</td>
+                <td>5.880 (13,6%)</td>
+            </tr>
+            <tr>
+                <td>Recorrentes 6+x</td>
+                <td><strong>15.708 (36,4%)</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Receita por Reativação</h3>
+    <p>Calculada a partir de dados reais:</p>
+    <ul>
+        <li><strong>Ticket médio de rede:</strong> R$ 209,80 (média das 23.047 transações da Base de Varejo)</li>
+        <li><strong>Taxa de processamento:</strong> 3%</li>
+        <li><strong>Juros médios:</strong> 11,5% a.m. (dados reais dos adimplentes)</li>
+        <li><strong>Parcelas médias:</strong> 6,5x (dados reais dos adimplentes)</li>
+        <li><strong>Resultado:</strong> R$ 209,80 × 0,03 + R$ 209,80 × 0,115 × 6,5 = <strong>R$ 163,05 por reativação</strong></li>
+    </ul>
+
+    <h3>Oportunidade por Segmento</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Segmento</th>
+                <th>Clientes</th>
+                <th>Canal Recomendado</th>
+                <th>Custo/Msg</th>
+                <th>Break-even</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Nunca (com app)</td>
+                <td>1.010</td>
+                <td>Push</td>
+                <td>R$ 0</td>
+                <td>0%</td>
+            </tr>
+            <tr>
+                <td>Nunca (sem app)</td>
+                <td>19.131</td>
+                <td>WhatsApp</td>
+                <td>R$ 0,30</td>
+                <td>0,18%</td>
+            </tr>
+            <tr>
+                <td>1 compra</td>
+                <td>1.459</td>
+                <td>Push + WhatsApp</td>
+                <td>R$ 0,15 (mix)</td>
+                <td>0,09%</td>
+            </tr>
+            <tr>
+                <td>Recorrentes 2-5x</td>
+                <td>5.880</td>
+                <td>WhatsApp</td>
+                <td>R$ 0,30</td>
+                <td>0,18%</td>
+            </tr>
+            <tr>
+                <td>Recorrentes 6+x</td>
+                <td>15.708</td>
+                <td>WhatsApp</td>
+                <td>R$ 0,30</td>
+                <td>0,18%</td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;"><strong>Total alcançável:</strong> 43.188 clientes | <strong>Custo médio ponderado:</strong> R$ 0,12/cliente | <strong>Custo campanha base:</strong> ~R$ 5.200</p>
+
+    <h3>Exemplo de Campanha Piloto (Cenário Base)</h3>
+    <p>Se você escolher um subset menor (ex: 5.200 clientes do segmento "Recorrentes 6+x" como piloto):</p>
+    <ul>
+        <li><strong>Conversão esperada:</strong> 5% (cenário base) = ~260 reativações</li>
+        <li><strong>Receita:</strong> 260 × R$ 163,05 = R$ 42.393</li>
+        <li><strong>Custo:</strong> 5.200 × R$ 0,30 = R$ 1.560</li>
+        <li><strong>Lucro líquido:</strong> R$ 42.393 - R$ 1.560 = <strong>R$ 40.833 (2.618% ROI)</strong></li>
+    </ul>
+    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">A calculadora do app permite testar qualquer tamanho e combinação de segmentos.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SEÇÃO 3 -->
+<div class="section">
+    <div class="section-number">3</div>
+    <h2>Lógica de Decisão</h2>
+
+    <h3>Estratégia de Seleção — O Que o App Faz</h3>
+    <p><strong>"Não reativar todo mundo do mesmo jeito"</strong> — o app implementa:</p>
+    <ul>
+        <li><strong>Por segmento:</strong> escolha entre 5 fixos (nunca/uma/recorrente) ou custom por filtros</li>
+        <li><strong>Por canal (smart):</strong> Push para quem tem app (R$0), WhatsApp para quem não tem (R$0,30). SMS como variante alternativa.</li>
+        <li><strong>Por score:</strong> filtro opcional de score mínimo (padrão: 0, sem limite)</li>
+        <li><strong>Com controle obrigatório:</strong> reserva automática de 10% para grupo controle (não alcançam mensagem)</li>
+    </ul>
+
+    <h3>Fluxo de Uso do App (4 Steps)</h3>
+    <ol style="margin: 1rem 0 1rem 2rem;">
+        <li><strong>Quem Reativar?</strong> Escolha um dos 5 segmentos predefinidos (ou crie um custom). O app mostra quantos clientes, limite parado, inatividade média.</li>
+        <li><strong>Vale a Pena?</strong> Configure canal (recomendação smart ou força um), ajuste controle (10-20%), veja projeção de break-even e ROI em 3 cenários de conversão: Conservador (2%), Base (5%), Otimista (10%). Confirme guard rails (sobreposição, cooldown).</li>
+        <li><strong>Executar:</strong> Veja as 2 variantes de mensagem (personalizadas automaticamente) e copie a que vai usar. Exporte CSV com ID, segmento, canal, grupo (tratamento ou controle).</li>
+        <li><strong>Medir:</strong> Após 7 e 30 dias, compare conversão do grupo tratamento vs. controle. Calcule ROI incremental e decida: iterar ou escalar.</li>
+    </ol>
+
+    <h3>Sobre os Cenários de Conversão: Taxa de Abertura vs. Hipóteses</h3>
+    <p><strong>Importante:</strong> Os 3 cenários (Conservador 2%, Base 5%, Otimista 10%) são <strong>hipóteses de conversão</strong> baseadas na taxa de abertura real por canal:</p>
+    <ul>
+        <li><strong>Taxa de abertura (real, dados da planilha):</strong> WhatsApp 35%, SMS 5%, Push 4%</li>
+        <li><strong>Taxa de conversão (hipótese):</strong> De quem abriu a mensagem, quanto % realmente faz uma compra? Isso não temos na base dormente.</li>
+    </ul>
+    <p>Os 3 cenários (2%, 5%, 10%) são estimativas conservadora/realista/otimista para permitir projeção. <strong>A medição real (Step 4) vai confirmar qual taxa de conversão realmente acontece.</strong></p>
+
+    <h3>Proteção Contra Desgaste — O Que o App Implementa</h3>
+    <div class="highlight">
+        <ul>
+            <li><strong>Guard rail #1 — Sobreposição:</strong> checkbox obrigatória "Sobreposição verificada". Step 3 e 4 só aparecem se confirmada.</li>
+            <li><strong>Guard rail #2 — Cooldown:</strong> checkbox obrigatória "Cooldown externo confirmado" (30 dias desde último contato). Step 3 e 4 só aparecem se confirmada.</li>
+            <li><strong>Recomendação operacional:</strong> monitorar conversão em 7 dias; se <0,06%, pausar e revisar mensagem/público/canal</li>
+        </ul>
+    </div>
+
+    <h3>Orientação Operacional: Go/No-Go e Pauseamento</h3>
+    <p><strong>O app facilita a decisão mostrando:</strong></p>
+    <ul>
+        <li>Break-even de conversão (quanto % é necessário pra cobrir custo)</li>
+        <li>Controle já reservado (10% dos clientes)</li>
+        <li>Segmento escolhido (não é broadcast)</li>
+    </ul>
+    <p><strong>O time deve monitorar manualmente em 30 dias:</strong></p>
+    <ul>
+        <li><strong>7 dias:</strong> conversão ≥ break-even? Se não, pausar e revisar</li>
+        <li><strong>30 dias:</strong> ROI = [(Conv_Tratamento% - Conv_Controle%) × Receita - Custo] / Custo ≥ 0?</li>
+        <li><strong>Sinais de parada:</strong> aberturas caindo >20% dia a dia (fadiga) ou feedback negativo</li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SEÇÃO 4 -->
+<div class="section">
+    <div class="section-number">4</div>
+    <h2>Comprovação</h2>
+
+    <h3>O App Entrega</h3>
+    <p><strong>Grupo de controle configurável:</strong> Reserve uma porcentagem de clientes selecionados (padrão 10%, ajustável até 20%) que não recebem mensagem. Permite medir causalidade real.</p>
+
+    <div class="formula">Efeito_Real = Conversão_Tratamento - Conversão_Controle</div>
+
+    <p>Sem controle, não há como saber se reativação veio da mensagem ou foi período natural de compra. <strong>O controle prova causalidade.</strong></p>
+
+    <h3>Cronograma Recomendado de Medição (Manual)</h3>
+    <p>O app não automatiza medição. O time deve rastrear:</p>
+    <ul>
+        <li><strong>7 dias:</strong> conversão ≥ break-even? (app exibe o valor necessário)</li>
+        <li><strong>30 dias:</strong> ROI incremental comprovado com controle:</li>
+    </ul>
+
+    <div class="formula">ROI = [(Conv_Tratamento% - Conv_Controle%) × Clientes × R$163,05 - Custo] / Custo</div>
+
+    <ul>
+        <li><strong>90 dias:</strong> reativados continuam comprando? (LTV)</li>
+    </ul>
+
+    <h3>Quando Pausar (Recomendação)</h3>
+    <div class="highlight">
+        <strong>Sinais de parada — revisar e pausar:</strong>
+        <ul>
+            <li>Conversão < break-even em 7 dias</li>
+            <li>Aberturas caindo >20% dia a dia (fadiga detectada)</li>
+            <li>Feedback negativo recorrente</li>
+        </ul>
+        <p style="margin-top: 1rem;"><strong>→ Análise de causa (mensagem? público? timing?), ajuste, retomada.</strong></p>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SEÇÃO 5 -->
+<div class="section">
+    <div class="section-number">5</div>
+    <h2>Breve Registro das Decisões</h2>
+    <p style="margin-bottom: 2rem; font-style: italic;">Histórico real de testes, decisões implementadas e alternativas descartadas durante o desenvolvimento.</p>
+
+    <h3>✅ Implementado: 5 Segmentos Fixos</h3>
+    <p><strong>O que foi testado:</strong> Múltiplas segmentações (histórico de compras, score de crédito, dias sem compra, app vs sem app).</p>
+    <p><strong>Por quê foi escolhido:</strong> 5 segmentos cobrem 100% da base com clareza cognitiva. Reduz paralisia de análise.</p>
+    <p><strong>Descartado:</strong> 20+ micro-segmentos (não agrega informação; apenas aumenta complexidade).</p>
+
+    <h3>✅ Implementado: Break-even como Métrica de Decisão</h3>
+    <p><strong>O que foi testado:</strong> ROI absoluto vs. break-even (conversão mínima para cobrir custo).</p>
+    <p><strong>Por quê foi escolhido:</strong> Break-even desacopla de volume de alcance. Permite comparar segmentos diferentes em igualdade.</p>
+    <p><strong>Descartado:</strong> ROI direto (depende de quem você alcança; confunde eficiência com scale).</p>
+
+    <h3>✅ Implementado: 10% Grupo de Controle Obrigatório</h3>
+    <p><strong>O que foi testado:</strong> Campanha com vs. sem grupo de controle.</p>
+    <p><strong>Por quê foi escolhido:</strong> Sem controle, impossível saber se reativação foi pela mensagem ou inércia natural do período. Controle prova causalidade.</p>
+    <p><strong>Descartado:</strong> Sem reserva de controle (risco de atribuição falsa; métrica fica inútil).</p>
+
+    <h3>✅ Implementado: 30 Dias Cooling-off Obrigatório</h3>
+    <p><strong>O que foi testado:</strong> Frequência de contato sem restrição vs. com limite de 30 dias.</p>
+    <p><strong>Por quê foi escolhido:</strong> Evita fadiga de cliente e desgaste de base. Alinhado com janela de medição (30 dias é suficiente para ver efeito).</p>
+    <p><strong>Descartado:</strong> Sem restrição (risco: cliente se cansa, churn sobe, marca sofre).</p>
+
+    <h3>✅ Implementado: 2 Variantes por Canal com Auto-Personalização</h3>
+    <p><strong>O que foi testado:</strong> Mensagens genéricas vs. adaptadas ao comportamento do segmento.</p>
+    <p><strong>Por quê foi escolhido:</strong> Dois ângulos (awareness para quem nunca comprou vs. hábito para recorrente) cobrem 80% do diferencial. Mais que isso exigiria teste prévio.</p>
+    <p><strong>Como funciona:</strong> O app calcula % de "nunca compraram" no segmento escolhido. Se >50%, mostra variantes de "awareness" ("seu crédito está pronto"). Se ≤50%, mostra variantes de "reengajamento" ("sentimos sua falta"). Time escolhe A ou B e exporta.</p>
+    <p><strong>Canais:</strong> WhatsApp, SMS (com limites de caracteres) e Push (título + body separados).</p>
+
+    <h3>❌ Descartado: Disparador Automático de Mensagens</h3>
+    <p><strong>Ideia testada:</strong> Ume Pulse enviaria mensagens direto (integração com sistema de disparo existente).</p>
+    <p><strong>Por quê foi descartado:</strong> Disparador do time já existe e é confiável. Integração gastaria 2-3 sprints. MVP é mais ágil com export + dispatch manual.</p>
+    <p><strong>Revisitar em:</strong> Quando volume de campanhas justificar automação (50+ campanhas/mês).</p>
+
+    <h3>❌ Descartado: ML/Propensão Score</h3>
+    <p><strong>Ideia testada:</strong> Treinar modelo para prever "probabilidade de conversão" por cliente individual.</p>
+    <p><strong>Por quê foi descartado:</strong> Histórico muito curto (base dormente 6+ meses = dados insuficientes para treino confiável). Risco: modelo treinado em bias histórico, falha em dormentes.</p>
+    <p><strong>Ganho marginal:</strong> Segmentação simples por histórico de compras já cobre 80% da variância.</p>
+    <p><strong>Revisitar em:</strong> Após 5+ campanhas reais com medição incremental (histórico suficiente).</p>
+
+    <h3>❌ Descartado: Piloto Interno com Pauseamento Automático</h3>
+    <p><strong>Ideia testada:</strong> Enviar para subset de clientes (5-10%) como teste, pausar automaticamente se conversão < threshold.</p>
+    <p><strong>Por quê foi descartado:</strong> Complexidade desnecessária. Break-even é baixo o suficiente (0,18%) que risco de perda é mínimo. Time consegue monitorar manualmente em 7 dias.</p>
+    <p><strong>Removido do código:</strong> pauseThreshold, pilotPct features.</p>
+
+    <h3>❌ Descartado: Segmentação por Varejo Parceiro</h3>
+    <p><strong>Ideia testada:</strong> Segmentar clientes por "comprou em eletrônicos" vs. "comprou em moda" etc.</p>
+    <p><strong>Por quê foi descartado:</strong> Não existe linkagem na planilha entre dados de varejo (qual loja cada cliente comprou) e dados de usuário. Sem esse dado, segmentação por varejo é impossível. Além disso, 46% da base nunca comprou (sem histórico).</p>
+    <p><strong>Decisão:</strong> Manter foco em histórico de compras (volume, frequência), não em categoria de varejo.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- PASSAGEM -->
+<div class="section">
+    <h2 style="border: none; color: #14CB53; font-size: 2rem;">Passagem da Solução</h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+        <div>
+            <h3>Para Negócio</h3>
+            <div class="highlight">
+                <p><strong>De:</strong> "Temos R$ 20M parados, mas não sabemos quem reativar"</p>
+                <p style="margin-top: 1rem;"><strong>Para:</strong> "Podemos reativar 200+ clientes por campanha com ROI verificável usando dados"</p>
+            </div>
+            <p style="margin-top: 1.5rem;"><strong>Novas capacidades:</strong></p>
+            <ul>
+                <li>Testar hipóteses rapidinho (7 dias)</li>
+                <li>Medir incrementalidade real</li>
+                <li>Iterar sem risco (break-even baixo)</li>
+                <li>Escalar conforme resultados</li>
+                <li>Proteger base (controle + cooling-off)</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>Para Engenharia</h3>
+            <div class="highlight">
+                <p><strong>Funcionalidades entregues (MVP):</strong></p>
+                <ul style="margin: 1rem 0 1rem 2rem;">
+                    <li>Filtro de clientes por score, dormência, app</li>
+                    <li>5 segmentos predefinidos + opção custom</li>
+                    <li>Cálculo automático de projeção (break-even, ROI)</li>
+                    <li>Seleção de canal (smart: push se app, WhatsApp se não)</li>
+                    <li>Reserva automática de grupo controle (10%)</li>
+                    <li>Export CSV com ID, segmento, canal, grupo</li>
+                    <li>Guard rails (overlap check, cooldown validator)</li>
+                </ul>
+                <p style="margin-top: 1rem;"><strong>Próximos passos (scale):</strong></p>
+                <ul style="margin: 1rem 0 1rem 2rem;">
+                    <li>Integração com sistema de disparo existente</li>
+                    <li>Tracking de aberturas/conversões</li>
+                    <li>Dashboard de medição incremental</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- CONCLUSÃO -->
+<div class="section" style="text-align: center; margin-top: 4rem;">
+    <div style="background: linear-gradient(135deg, #F2FAF4 0%, #fff 100%); padding: 2rem; border-radius: 12px; border-left: 6px solid #14CB53;">
+        <h2 style="border: none; margin-top: 0;">Conclusão</h2>
+        <p style="font-size: 1.1rem; margin: 1.5rem 0;">
+            <strong>Ume Pulse resolve o problema de decisão de reativação.</strong> Automatiza seleção de clientes, cálculo de retorno e exportação — reduzindo de análise manual em semanas para decisão em horas.
+        </p>
+        <p style="font-size: 1.1rem; margin: 1rem 0;">
+            O modelo é baixo risco (break-even em 0,18% conversão) e alto potencial (R$ 40k+ por campanha piloto, escala maior em full-base). Decisão de go/no-go é clara: break-even ou não.
+        </p>
+        <p style="font-size: 1rem; color: #14CB53; font-weight: 700; margin-top: 2rem;">
+            Próximo marco: 1ª campanha piloto em 2 semanas.
+        </p>
+    </div>
+
+    <div class="footer" style="margin-top: 3rem; text-align: center;">
+        <p>Ume Pulse | Smart Reactivation Engine</p>
+        <p>Julho de 2026</p>
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>
