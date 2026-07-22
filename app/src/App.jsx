@@ -335,12 +335,17 @@ export default function App() {
   return (
     <div className="app">
       <header className="header">
-        <div className="logo">
+        <button
+          className="logo logo-button"
+          onClick={() => setShowLanding(true)}
+          title="Voltar para a home"
+          aria-label="Voltar para a home"
+        >
           <div className="logo-wordmark">
             <span className="logo-text">ume</span><span className="logo-dot">.</span>
             <span className="logo-sub">pulse</span>
           </div>
-        </div>
+        </button>
       </header>
 
       <main className="main">
