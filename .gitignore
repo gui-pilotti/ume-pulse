@@ -7,3 +7,10 @@ build/
 .vscode/
 .idea/
 *.log
+*.pdf
+make_pdf.js
+make_case_pdf.js
+test*.js
+test*.html
+manual_assets/
+.claude/settings.local.json
