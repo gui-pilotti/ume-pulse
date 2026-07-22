@@ -897,3 +897,79 @@ button, input, select, textarea { font-family: var(--sans); transition: all .15s
   .landing-desc { font-size: 0.95rem; }
   .landing-cta-primary { padding: 0.95rem 2.2rem; font-size: 1rem; }
 }
+
+/* ═══ Ranking de segmentos (Step 1) ═══ */
+.segment-ranking {
+  background: var(--ume-green-subtle);
+  border: 1px solid var(--ume-border);
+  border-radius: var(--r-card);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+}
+.sr-title { font-size: 0.82rem; font-weight: 700; color: var(--ume-text); margin-bottom: 0.6rem; }
+.sr-caveat { font-weight: 500; color: var(--ume-text-3); }
+.sr-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.sr-item {
+  display: flex; align-items: baseline; gap: 0.45rem;
+  background: var(--ume-card); border: 1px solid var(--ume-border);
+  border-radius: 10px; padding: 0.45rem 0.7rem;
+  font-size: 0.78rem; cursor: pointer; text-align: left;
+}
+.sr-item:hover { border-color: var(--ume-green); }
+.sr-item.sr-top { border-color: var(--ume-green); box-shadow: 0 0 0 1px var(--ume-green) inset; }
+.sr-rank { font-weight: 800; color: var(--ume-green-hover); }
+.sr-name { color: var(--ume-text-2); }
+.sr-net { font-weight: 700; color: var(--ume-text); }
+.sr-net-negative { color: #C62828; }
+.sr-per { font-size: 0.7rem; color: var(--ume-text-3); }
+
+/* ═══ Registrar resultado (Step 4) ═══ */
+.result-calc {
+  margin-top: 1.5rem;
+  background: var(--ume-card);
+  border: 1px solid var(--ume-border);
+  border-radius: var(--r-card);
+  padding: 1.25rem 1.4rem;
+}
+.rc-title { font-weight: 800; color: var(--ume-text); font-size: 1rem; }
+.rc-sub { font-size: 0.82rem; color: var(--ume-text-3); margin: 0.3rem 0 1rem; }
+.rc-inputs { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.rc-inputs label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8rem; font-weight: 600; color: var(--ume-text-3); }
+.rc-inputs input {
+  width: 160px; padding: 0.5rem 0.65rem;
+  border: 1px solid var(--ume-border); border-radius: var(--r-sm);
+  background: var(--ume-bg); color: var(--ume-text); font-size: 0.9rem;
+}
+.rc-inputs input:focus { outline: none; border-color: var(--ume-green); }
+.rc-output { margin-top: 1.1rem; border-top: 1px dashed var(--ume-border); padding-top: 1rem; display: grid; gap: 0.35rem; font-size: 0.85rem; color: var(--ume-text-2); }
+.rc-row { display: flex; justify-content: space-between; gap: 1rem; }
+.rc-row strong { color: var(--ume-text); }
+.rc-row-total { border-top: 1px solid var(--ume-border); padding-top: 0.5rem; margin-top: 0.3rem; }
+.rc-pos { color: #0B8A36 !important; }
+.rc-neg { color: #C62828 !important; }
+.rc-verdict { margin-top: 0.7rem; font-size: 0.83rem; font-weight: 700; padding: 0.65rem 0.85rem; border-radius: var(--r-sm); }
+.rc-verdict.positive { background: rgba(20, 203, 83, 0.12); color: #0B8A36; }
+.rc-verdict.negative { background: rgba(198, 40, 40, 0.1); color: #C62828; }
+
+/* ═══ Alerta de sobreposição (guard rail) ═══ */
+.guardrail-alert { display: block; margin-top: 0.35rem; font-size: 0.76rem; font-weight: 700; color: #C62828; }
+
+/* ═══ Histórico de campanhas ═══ */
+.history-section { padding: 1.75rem 0; border-top: 1px solid var(--ume-border); }
+.history-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.history-header h2 { margin: 0; font-size: 1.15rem; color: var(--ume-text); }
+.history-clear {
+  background: none; border: 1px solid var(--ume-border); border-radius: var(--r-sm);
+  padding: 0.4rem 0.8rem; font-size: 0.75rem; color: var(--ume-text-3); cursor: pointer;
+}
+.history-clear:hover { border-color: #C62828; color: #C62828; }
+.history-list { display: grid; gap: 0.4rem; }
+.history-item {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.75rem;
+  background: var(--ume-card); border: 1px solid var(--ume-border);
+  border-radius: var(--r-sm); padding: 0.55rem 0.85rem; font-size: 0.8rem;
+}
+.hi-date { font-weight: 700; color: var(--ume-text-3); }
+.hi-name { font-weight: 700; color: var(--ume-text); }
+.hi-meta { color: var(--ume-text-3); }
+.hi-cost { margin-left: auto; font-weight: 700; color: var(--ume-text); }

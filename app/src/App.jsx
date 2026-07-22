@@ -119,6 +119,10 @@ export default function App() {
   const [exported, setExported] = useState(false);
   const [copiedVariant, setCopiedVariant] = useState(null);
   const [guardrails, setGuardrails] = useState({ overlap: false, cooldown: false });
+  const [resultInputs, setResultInputs] = useState({ treat: '', ctrl: '' });
+  const [campaigns, setCampaigns] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('ume_pulse_campaigns') || '[]'); } catch { return []; }
+  });
 
   const step2Ref = useRef(null);
 
@@ -132,6 +136,7 @@ export default function App() {
         setScoreMin(0);
         setExported(false);
         setGuardrails({ overlap: false, cooldown: false });
+        setResultInputs({ treat: '', ctrl: '' });
       }
       return i;
     });
@@ -178,6 +183,21 @@ export default function App() {
 
   const CUSTOM_IDX = SEGMENTS.length; // index 5
 
+  // Ranking de segmentos: retorno líquido projetado no cenário base (5% de conversão),
+  // canal inteligente, sem desconto de controle — mesma matemática do Step 2
+  const segmentRanking = useMemo(() => {
+    return segmentData
+      .map((s, idx) => {
+        if (!s.count) return null;
+        const opens = s.comApp * CHANNELS.push.openRate + (s.count - s.comApp) * CHANNELS.whatsapp.openRate;
+        const conversions = Math.round(opens * 0.05);
+        const net = conversions * s.revPerClient - s.cost;
+        return { id: s.id, idx, name: s.name, net, cost: s.cost, perReal: s.cost > 0 ? net / s.cost : null };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.net - a.net);
+  }, [segmentData]);
+
   const customSegment = useMemo(() => {
     if (selectedSegment !== CUSTOM_IDX) return null;
     const group = applyFilters(customers, customFilters);
@@ -202,6 +222,15 @@ export default function App() {
     : selectedSegment === CUSTOM_IDX
       ? customSegment
       : segmentData[selectedSegment];
+
+  // Alerta de sobreposição: este segmento já foi exportado nos últimos 30 dias?
+  const recentSameSegment = useMemo(() => {
+    if (!selected) return null;
+    const rec = campaigns.find(c => c.segmentId === selected.id);
+    if (!rec) return null;
+    const days = Math.floor((Date.now() - new Date(rec.date)) / 86400000);
+    return days <= 30 ? { ...rec, days } : null;
+  }, [campaigns, selected]);
 
   const CONV_SCENARIOS = [
     { label: 'Conservador', pct: 0.02 },
@@ -277,6 +306,24 @@ export default function App() {
     a.click();
     URL.revokeObjectURL(url);
     setExported(true);
+
+    // Registra a campanha no histórico local (localStorage)
+    const record = {
+      date: new Date().toISOString(),
+      segmentId: selected.id,
+      segmentName: selected.name,
+      treatment: projection.treatment.length,
+      control: projection.control.length,
+      cost: projection.totalCost,
+    };
+    const next = [record, ...campaigns].slice(0, 20);
+    setCampaigns(next);
+    try { localStorage.setItem('ume_pulse_campaigns', JSON.stringify(next)); } catch { /* storage cheio/indisponível */ }
+  };
+
+  const clearCampaigns = () => {
+    setCampaigns([]);
+    try { localStorage.removeItem('ume_pulse_campaigns'); } catch { /* noop */ }
   };
 
   const pctNunca = selected ? customers.filter(selected.filter).filter(c => c[C.COMPRAS] === 0).length / selected.count * 100 : 0;
@@ -386,6 +433,24 @@ export default function App() {
             <div>
               <h2>Quem reativar?</h2>
               <p className="step-sub">Escolha um grupo. Os números mostram o potencial de cada um.</p>
+            </div>
+          </div>
+
+          {/* Ranking: por onde começar */}
+          <div className="segment-ranking">
+            <div className="sr-title">
+              Por onde começar? Retorno líquido projetado por segmento
+              <span className="sr-caveat"> · cenário base (5% dos que abrirem), canal inteligente</span>
+            </div>
+            <div className="sr-list">
+              {segmentRanking.map((r, i) => (
+                <button key={r.id} className={`sr-item ${i === 0 ? 'sr-top' : ''}`} onClick={() => selectSegment(r.idx)}>
+                  <span className="sr-rank">{i + 1}º</span>
+                  <span className="sr-name">{r.name}</span>
+                  <span className={`sr-net ${r.net >= 0 ? '' : 'sr-net-negative'}`}>{formatBRL(r.net)}</span>
+                  <span className="sr-per">{r.perReal !== null ? `R$ ${r.perReal.toFixed(0)} por R$ 1 gasto` : 'custo zero'}</span>
+                </button>
+              ))}
             </div>
           </div>
 
@@ -734,6 +799,11 @@ export default function App() {
               <div className="guardrail-body">
                 <strong>Sobreposição verificada</strong>
                 <span>Confirme que estes {formatNum(projection.treatment.length)} clientes não estão em outra campanha ativa nos últimos 30 dias.</span>
+                {recentSameSegment && (
+                  <span className="guardrail-alert">
+                    ⚠ Este segmento foi exportado {recentSameSegment.days === 0 ? 'hoje' : `há ${recentSameSegment.days} ${recentSameSegment.days === 1 ? 'dia' : 'dias'}`} — risco de contato duplicado dentro do cooldown de 30 dias.
+                  </span>
+                )}
               </div>
               <span className={`guardrail-badge ${guardrails.overlap ? 'done' : 'pending'}`}>
                 {guardrails.overlap ? 'Confirmado' : 'Pendente'}
@@ -869,6 +939,72 @@ export default function App() {
                   O grupo de controle desta rodada pode receber a próxima campanha otimizada.
                 </div>
               </div>
+            </div>
+
+            {/* ── Registrar resultado: fecha o loop decidir → executar → provar ── */}
+            <div className="result-calc">
+              <div className="rc-title">Registrar resultado</div>
+              <p className="rc-sub">Após o período de medição, informe as reativações observadas — o Pulse calcula o efeito incremental e o ROI na hora.</p>
+              <div className="rc-inputs">
+                <label>
+                  Reativações no tratamento ({formatNum(projection.treatment.length)} clientes)
+                  <input type="number" min="0" value={resultInputs.treat} placeholder="0"
+                    onChange={e => setResultInputs(r => ({ ...r, treat: e.target.value }))} />
+                </label>
+                <label>
+                  Reativações no controle ({formatNum(projection.control.length)} clientes)
+                  <input type="number" min="0" value={resultInputs.ctrl} placeholder="0"
+                    onChange={e => setResultInputs(r => ({ ...r, ctrl: e.target.value }))} />
+                </label>
+              </div>
+              {resultInputs.treat !== '' && resultInputs.ctrl !== '' && projection.control.length > 0 && (() => {
+                const tRate = Number(resultInputs.treat) / projection.treatment.length;
+                const cRate = Number(resultInputs.ctrl) / projection.control.length;
+                const lift = tRate - cRate;
+                const incConversions = lift * projection.treatment.length;
+                const incRevenue = incConversions * selected.revPerClient;
+                const net = incRevenue - projection.totalCost;
+                return (
+                  <div className="rc-output">
+                    <div className="rc-row"><span>Conversão no tratamento</span><strong>{formatPct(tRate)}</strong></div>
+                    <div className="rc-row"><span>Conversão no controle (baseline)</span><strong>{formatPct(cRate)}</strong></div>
+                    <div className="rc-row"><span>Efeito incremental da campanha</span><strong>{formatPct(lift)} · ~{formatNum(Math.round(incConversions))} reativações causadas</strong></div>
+                    <div className="rc-row"><span>Receita incremental ({formatBRL(selected.revPerClient)}/reativação)</span><strong>{formatBRL(incRevenue)}</strong></div>
+                    <div className="rc-row"><span>Custo da campanha</span><strong>{formatBRL(projection.totalCost)}</strong></div>
+                    <div className="rc-row rc-row-total"><span>Resultado líquido incremental</span><strong className={net >= 0 ? 'rc-pos' : 'rc-neg'}>{formatBRL(net)}{projection.totalCost > 0 && ` · ROI ${formatPct(net / projection.totalCost)}`}</strong></div>
+                    <div className={`rc-verdict ${net >= 0 ? 'positive' : 'negative'}`}>
+                      {lift <= 0
+                        ? '✕ Tratamento não superou o controle — a campanha não causou reativações. Reveja público, mensagem ou canal antes de escalar.'
+                        : net >= 0
+                          ? '✓ ROI incremental positivo — efeito causal comprovado. Escale para os próximos segmentos do ranking.'
+                          : '✕ Houve efeito, mas não cobriu o custo — reduza o público (score mínimo) ou troque o canal antes de repetir.'}
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          </section>
+        )}
+
+        {/* ── Histórico de campanhas exportadas (localStorage) ── */}
+        {campaigns.length > 0 && (
+          <section className="history-section">
+            <div className="history-header">
+              <div>
+                <h2>Campanhas exportadas</h2>
+                <p className="step-sub">Registro local deste navegador — alimenta o alerta de sobreposição. Em produção, migraria para o CRM.</p>
+              </div>
+              <button className="history-clear" onClick={clearCampaigns}>Limpar histórico</button>
+            </div>
+            <div className="history-list">
+              {campaigns.map((c, i) => (
+                <div key={`${c.date}-${i}`} className="history-item">
+                  <span className="hi-date">{new Date(c.date).toLocaleDateString('pt-BR')}</span>
+                  <span className="hi-name">{c.segmentName}</span>
+                  <span className="hi-meta">{formatNum(c.treatment)} tratamento · {formatNum(c.control)} controle</span>
+                  <span className="hi-cost">{c.cost === 0 ? 'custo zero' : formatBRL(c.cost)}</span>
+                </div>
+              ))}
             </div>
           </section>
         )}
